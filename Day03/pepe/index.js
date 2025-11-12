@@ -6,7 +6,7 @@ application.get("/", (req, res) => {
   res.send("빼빼로 월드");
 });
 
-application.get("/list", async (req, res) => {
+const getPepero = async () => {
   const workbook = new excel.Workbook();
   await workbook.xlsx.readFile("./test.xlsx");
   const sheet = workbook.worksheets[0];
@@ -15,10 +15,26 @@ application.get("/list", async (req, res) => {
   sheet.eachRow({ includeEmpty: false }, (row, num) => {
     const name = row.getCell(1).value;
     const price = row.getCell(2).value;
+
+    if (!name || !price) return;
     sheetArr.push({ name, price });
   });
 
-  res.json(sheetArr);
+  return sheetArr;
+};
+
+application.get("/list", async (req, res) => {
+  const data = await getPepero();
+
+  res.json(data);
+});
+
+// 동적 라우팅, 파라미터
+application.get("/list/:numVal", async (req, res) => {
+  const { numVal } = req.params;
+  const data = await getPepero();
+
+  res.json(data[+numVal - 1]);
 });
 
 application.listen(3000, () => {
