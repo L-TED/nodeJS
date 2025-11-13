@@ -77,12 +77,10 @@ app.put("/ramens/:id", (req, res) => {
   res.json(`${id} 데이터 변경`);
 });
 
-/* 
-review 생성
- - 리뷰 POST -> 리뷰 PUSH(ID: v4())
- - 리뷰 GET -> "/ramen/:id/reviews"
- - "/ramen/(아이디 입력)/reviews/" -> 조회
-*/
+app.get("/ramens/:id/reviews", (req, res) => {});
+app.post("/reviews", (req, res) => {
+  const { nickname, contents, id: ramenID } = req.body;
+});
 
 app.listen(3000, () => {
   console.log("now is running");

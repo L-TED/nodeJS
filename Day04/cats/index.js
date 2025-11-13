@@ -26,12 +26,6 @@ app.get("/cats/:id", (req, res) => {
   const { id } = req.params;
   const result = cats.find((v) => v.id == id);
   res.json(result || "404");
-  //   if (id > 0 && id < cats.length + 1) {
-  //     // length => 7(1부터 셈)
-  //     return res.json(cats[+id - 1]);
-  //   } else {
-  //     return res.json("404");
-  //   }
 });
 
 app.post("/add", (req, res) => {
