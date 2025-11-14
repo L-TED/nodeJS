@@ -5,7 +5,7 @@ const app = express();
 const { members } = require("./data");
 const { logger, timeChecker, response } = require("./func");
 
-app.use(express());
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // morgan -> 메서드, URL, 상태코드, 응답시간 돌려줌 (e.f. GET / 200 14.594 ms - 66, GET /test 200 15.742 ms - 71)
 app.use(morgan("dev"));
