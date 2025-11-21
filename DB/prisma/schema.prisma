@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:abc000@localhost:3306/university"
+}
+
+model boards {
+  id            Int        @id @default(autoincrement())
+  user_nickname String     @unique(map: "user_nickname") @default("ㅇㅇ") @db.VarChar(100)
+  title         String     @db.VarChar(100)
+  contents      String     @db.Text
+  comments      comments[]
+}
+
+model buildings {
+  id          Int           @id @default(autoincrement())
+  name        String        @unique(map: "name") @db.VarChar(100)
+  departments departments[]
+}
+
+model comments {
+  id            Int     @id @default(autoincrement())
+  user_nickname String  @default("ㅇㅇ") @db.VarChar(100)
+  contents      String  @db.VarChar(300)
+  board_id      Int?
+  boards        boards? @relation(fields: [board_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "comments_ibfk_1")
+
+  @@index([board_id], map: "board_id")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model departments {
+  id          Int        @id @default(autoincrement())
+  name        String     @unique(map: "name") @db.VarChar(100)
+  capacity    Int        @default(1)
+  building_id Int?
+  buildings   buildings? @relation(fields: [building_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "departments_ibfk_1")
+  students    students[]
+
+  @@index([building_id], map: "building_id")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model students {
+  id            Int          @id @default(autoincrement())
+  name          String       @db.VarChar(100)
+  grade         Int
+  department_id Int?
+  departments   departments? @relation(fields: [department_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "students_ibfk_1")
+
+  @@index([department_id], map: "department_id")
+}
+
+model users {
+  id       String @id @db.VarChar(30)
+  password String @db.VarChar(100)
+  nickname String @db.VarChar(30)
+}

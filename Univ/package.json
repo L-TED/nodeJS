@@ -1,5 +1,5 @@
 {
-  "name": "db",
+  "name": "univ",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,6 +13,7 @@
     "@prisma/client": "^6.19.0",
     "bcrypt": "^6.0.0",
     "express": "^5.1.0",
-    "prisma": "^6.19.0"
+    "prisma": "^6.19.0",
+    "uuid": "^13.0.0"
   }
 }
